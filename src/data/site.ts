@@ -43,7 +43,7 @@ export const site = {
     },
     {
       title: "Music Website",
-      note: "A streaming platform with personalised recommendations, built out in Framer for smooth transitions and micro-interactions.",
+      note: "A streaming platform with personalized recommendations, built out in Framer for smooth transitions and micro-interactions.",
       meta: "Figma · Framer",
       year: "2025",
       href: "#",
