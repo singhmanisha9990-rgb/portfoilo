@@ -86,16 +86,47 @@ instead of staying put.
 
 ## Swapping the torus knot for a character
 
-Replace the `TorusKnotGeometry` in `HeroCanvas.tsx` with a `GLTFLoader` call:
+**No code change needed.** Drop a `.glb` at `public/models/avatar.glb` and it
+replaces the knot on next load. Absent or invalid, the knot is used instead.
+
+What you get for free when a model is present:
+
+- **Auto-framing.** The model's bounding box is measured, recentred on the
+  origin, and the camera distance solved so it fills ~72% of frame height. Any
+  scale of model lands composed — no hand-tuned camera numbers.
+- **Cursor tracking.** The first node matching `/head/i` (Ready Player Me and
+  Mixamo both name it `Head`) turns toward the pointer instead of the whole
+  object tumbling.
+- **Animation.** Every clip in the file is played through an `AnimationMixer`.
+- **Draco.** Compressed models work out of the box. `DRACOLoader` is imported
+  dynamically and three resolves its own decoder URLs, so the ~1.3MB of wasm
+  never enters the network graph unless a model is actually present — and there
+  is no hand-copied decoder in `public/` to drift out of sync with three.
+
+To make one:
 
 1. Export a rigged avatar — [Ready Player Me](https://readyplayer.me) does free
    ones — and retarget [Mixamo](https://mixamo.com) animations in Blender.
 2. Compress it: `npx @gltf-transform/cli optimize in.glb out.glb --draco`.
-3. Load with `GLTFLoader` + `DRACOLoader`, drive clips through an
-   `AnimationMixer`, and update that mixer in the existing render loop.
 
-Keep the camera and tone-mapping settings as they are — they matter more to the
-final look than the model does.
+Keep the camera FOV and tone mapping as they are — they matter more to the final
+look than the model does.
+
+### Testing that path without an avatar
+
+`scripts/make-test-glb.mjs` generates a throwaway figure (capsule body, sphere
+head named `Head`, one idle clip) to exercise loading, auto-framing, head
+tracking and the mixer:
+
+```bash
+node scripts/make-test-glb.mjs public/models/avatar.glb   # knot -> figure
+rm public/models/avatar.glb                               # back to the knot
+```
+
+Note that the loader validates the GLB **magic number**, not the HTTP status.
+Vite's dev server — and Netlify, Vercel rewrites and GitHub Pages — answer
+unknown paths with `200` plus `index.html`, so a status check alone would hand
+HTML to the parser and throw on every load.
 
 ## Licence
 
