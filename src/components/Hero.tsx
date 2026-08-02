@@ -14,6 +14,9 @@ export default function Hero() {
           <br />
           <em>{site.last}</em>
         </h1>
+        <p className="hero-role" data-reveal="load">
+          {site.role}
+        </p>
         <p className="hero-roles" data-reveal="load">
           {site.blurb}
         </p>

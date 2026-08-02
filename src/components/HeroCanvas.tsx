@@ -16,6 +16,14 @@ const MODEL_URL = "/models/avatar.glb";
 const FILL = 0.72;
 
 /**
+ * How far right to push the object, as a fraction of frame width, so it clears
+ * the copy column. Centred art behind grey body text is unreadable; on narrow
+ * screens the copy sits over it anyway, so the shift only applies to desktop.
+ */
+const SHIFT = 0.17;
+const SHIFT_MIN_WIDTH = 1024;
+
+/**
  * The hero object. Two things do the heavy lifting visually:
  *
  *  1. A 14.5deg field of view. Three's default is 50deg, whose wide-angle
@@ -142,6 +150,20 @@ export default function HeroCanvas() {
       return material;
     };
 
+    let baseDistance = 0;
+    let shiftX = 0;
+
+    /** World-space x offset that lands the object clear of the copy column. */
+    const recomputeShift = () => {
+      if (!baseDistance || window.innerWidth < SHIFT_MIN_WIDTH) {
+        shiftX = 0;
+        return;
+      }
+      const vFov = (camera.fov * Math.PI) / 180;
+      const frameWidth = 2 * baseDistance * Math.tan(vFov / 2) * camera.aspect;
+      shiftX = frameWidth * SHIFT;
+    };
+
     /**
      * Centres the pivot's contents on the origin and returns the camera distance
      * that makes them fill FILL of the frame. Auto-framing means an arbitrary
@@ -184,6 +206,8 @@ export default function HeroCanvas() {
       const base = frameContents();
       camera.position.set(0, 0, base);
       camera.updateProjectionMatrix();
+      baseDistance = base;
+      recomputeShift();
 
       scrollTl = gsap.timeline({
         scrollTrigger: {
@@ -246,7 +270,7 @@ export default function HeroCanvas() {
         pivot.rotation.x += delta * 0.12;
       }
 
-      pivot.position.x = pointer.x * 0.55;
+      pivot.position.x = shiftX + pointer.x * 0.55;
       pivot.position.y = -pointer.y * 0.35;
 
       mixer?.update(delta);
@@ -264,6 +288,7 @@ export default function HeroCanvas() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
+      recomputeShift();
     };
     window.addEventListener("resize", onResize);
 

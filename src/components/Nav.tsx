@@ -18,6 +18,11 @@ export default function Nav() {
           </a>
         </li>
         <li>
+          <a href="#toolkit" data-anchor>
+            TOOLKIT
+          </a>
+        </li>
+        <li>
           <a href="#contact" data-anchor>
             CONTACT
           </a>

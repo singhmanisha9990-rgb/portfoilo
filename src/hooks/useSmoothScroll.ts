@@ -12,6 +12,13 @@ export function useSmoothScroll() {
     // what people who set this preference are asking us not to do.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // Browsers restore the previous scroll offset on reload. On a page whose
+    // hero animation only plays once, that drops returning visitors halfway
+    // down with the intro already spent — so opt out and start at the top.
+    const priorRestoration = history.scrollRestoration;
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+
     const ctx = gsap.context(() => {
       const smoother = ScrollSmoother.create({
         wrapper: "#smooth-wrapper",
@@ -23,6 +30,10 @@ export function useSmoothScroll() {
         normalizeScroll: true,
       });
 
+      // The smoother keeps its own scroll offset, so resetting the window above
+      // is not enough — it has to be told as well.
+      smoother.scrollTop(0);
+
       // Anchor clicks hand off to the smoother so they ease instead of jumping.
       gsap.utils.toArray<HTMLAnchorElement>("a[data-anchor]").forEach((link) => {
         link.addEventListener("click", (event) => {
@@ -33,6 +44,9 @@ export function useSmoothScroll() {
       });
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      if ("scrollRestoration" in history) history.scrollRestoration = priorRestoration;
+    };
   }, []);
 }

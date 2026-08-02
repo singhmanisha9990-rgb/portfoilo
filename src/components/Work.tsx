@@ -8,7 +8,10 @@ export default function Work() {
         {site.projects.map((project, i) => (
           <a className="work-item" href={project.href} key={project.title}>
             <span className="work-index">{String(i + 1).padStart(2, "0")}</span>
-            <span className="work-title">{project.title}</span>
+            <span className="work-body">
+              <span className="work-title">{project.title}</span>
+              <span className="work-note">{project.note}</span>
+            </span>
             <span className="work-meta">
               {project.meta}
               <br />

@@ -157,9 +157,18 @@ section {
   color: var(--muted);
 }
 
+.hero-role {
+  margin-top: 1.75rem;
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .hero-roles {
   max-width: 34ch;
-  margin-top: 2.5rem;
+  margin-top: 1.1rem;
   font-size: clamp(0.95rem, 1.6vw, 1.2rem);
   font-weight: 300;
   line-height: 1.5;
@@ -224,7 +233,7 @@ section {
   display: grid;
   grid-template-columns: 4rem 1fr auto;
   gap: 2rem;
-  align-items: baseline;
+  align-items: start;
   padding: 2.25rem 0;
   border-bottom: 1px solid var(--line);
   transition: padding-left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -235,13 +244,19 @@ section {
 }
 
 .work-index {
+  padding-top: 0.55rem;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--muted);
 }
 
+.work-body {
+  display: block;
+}
+
 .work-title {
+  display: block;
   font-size: clamp(1.35rem, 3vw, 2.4rem);
   font-weight: 600;
   letter-spacing: -0.025em;
@@ -252,20 +267,89 @@ section {
   color: var(--accent);
 }
 
+.work-note {
+  display: block;
+  max-width: 52ch;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
 .work-meta {
+  padding-top: 0.55rem;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   color: var(--muted);
   text-align: right;
+  white-space: nowrap;
 }
 
 @media (max-width: 720px) {
   .work-item {
     grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
   }
   .work-meta {
     display: none;
   }
+}
+
+/* ---------- toolkit ---------- */
+
+.toolkit {
+  padding-bottom: 18vh;
+}
+
+.toolkit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 3rem 2rem;
+  border-top: 1px solid var(--line);
+  padding-top: 3rem;
+}
+
+.toolkit-col h3 {
+  margin-bottom: 1.1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.toolkit-col ul {
+  list-style: none;
+}
+
+.toolkit-col li {
+  padding: 0.35rem 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--fg);
+}
+
+.background {
+  margin-top: 5rem;
+  border-top: 1px solid var(--line);
+}
+
+.background-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+  font-weight: 300;
+}
+
+.background-meta {
+  color: var(--muted);
+  white-space: nowrap;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
 }
 
 /* ---------- contact ---------- */

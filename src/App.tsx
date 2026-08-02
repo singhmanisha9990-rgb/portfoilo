@@ -3,6 +3,7 @@ import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Work from "./components/Work";
+import Toolkit from "./components/Toolkit";
 import Contact from "./components/Contact";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import { useSplitReveal } from "./hooks/useSplitReveal";
@@ -29,6 +30,7 @@ export default function App() {
           <Hero />
           <About />
           <Work />
+          <Toolkit />
           <Contact />
         </div>
       </div>
