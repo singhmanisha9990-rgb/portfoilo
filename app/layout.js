@@ -1,41 +1,43 @@
 import './globals.css';
-import { Space_Grotesk, Inter, Space_Mono } from 'next/font/google';
+import { Instrument_Sans } from 'next/font/google';
+import Sidebar from '@/components/Sidebar';
+import ThemeToggle from '@/components/ThemeToggle';
 
-const disp = Space_Grotesk({
+const sans = Instrument_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-disp',
-  display: 'swap',
-});
-const body = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-body',
-  display: 'swap',
-});
-const mono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-mono',
+  weight: ['400', '500', '600'],
+  variable: '--font-sans',
   display: 'swap',
 });
 
 export const metadata = {
-  title: 'Manisha Singh — Product Designer × AI Creative',
+  title: 'Manisha Singh — UI/UX & Digital Product Designer',
   description:
-    'Manisha Singh — Product Designer × AI Creative. I design digital experiences that feel as good as they function, combining UX thinking, visual design, AI and emerging technology.',
+    'Manisha Singh is a UI/UX and digital product designer crafting responsive, accessible web and mobile experiences.',
 };
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#08090B',
+  viewportFit: 'cover',
 };
+
+// Applies a saved light/dark choice before first paint to avoid a flash.
+const themeScript = `try{var s=localStorage.getItem("ms-theme");if(s)document.documentElement.dataset.theme=s}catch(e){}`;
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${disp.variable} ${body.variable} ${mono.variable}`}>
-      <body className="native">{children}</body>
+    <html lang="en" className={sans.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
+        <div className="shell">
+          <Sidebar />
+          <main id="app">{children}</main>
+        </div>
+        <ThemeToggle />
+      </body>
     </html>
   );
 }

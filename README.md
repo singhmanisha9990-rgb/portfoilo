@@ -1,8 +1,8 @@
 # Manisha Singh — Portfolio
 
-Personal portfolio of **Manisha Singh**, Product Designer × AI Creative.
+Personal portfolio of **Manisha Singh**, UI/UX & Digital Product Designer.
 
-Built with **Next.js** (App Router). Three.js and GSAP are installed from npm and lazy-loaded on the client.
+Built with **Next.js** (App Router), no other runtime dependencies. Light and dark themes follow the system setting, with a toggle that is remembered per browser.
 
 ## Run locally
 
@@ -17,26 +17,24 @@ npm start        # serve the production build
 
 ```
 app/
-  layout.js        # fonts (next/font), metadata, global CSS
-  page.js          # composes all sections
-  globals.css      # full design system / styles
-components/        # one component per section + effects
-  Hero.jsx         # WebGL sphere, intro timeline, portrait motion
-  Work.jsx         # projects grid + case-study overlay
-  About.jsx        # pinned scroll "identity" experience
-  SmoothScroll.jsx # lerped virtual scrolling (desktop)
-  ...
+  layout.js          # font, metadata, sidebar shell, theme toggle
+  globals.css        # all styles and theme tokens
+  page.js            # home
+  works/page.js      # all work
+  about/page.js      # about + experience (/about#experience)
+  work/[slug]/page.js  # case study (live sites) or concept page
+components/
+  Sections.jsx       # shared sections: featured work, process, timeline, tools, contact…
+  Sidebar.jsx        # sticky profile sidebar / mobile menu
+  Carousel.jsx       # home hero project strip
+  Ring.jsx           # about page draggable image ring
+  PageFX.jsx         # scroll reveals, mockup tilt, timeline drawing
+  ContactForm.jsx    # opens a prefilled email
 lib/
-  data.js          # ALL editable content (projects, process, tools, timeline…)
-  mocks.js         # drawn browser/dashboard mock fallbacks
-  fx.js            # shared scroll/motion state
-public/images/     # portrait + project screenshots
+  data.js            # ALL editable content
+public/img/          # images
 ```
 
 ## Editing content
 
-Projects, process steps, AI tools, timeline, skills and lab experiments all live in [`lib/data.js`](lib/data.js) (`PROJECTS`, `PROCESS`, `AI_FLOW`, `AI_TOOLS`, `DNA`, `TIMELINE`, `KIN`, `LAB`). To add a project screenshot, drop a `.jpg` in `public/images/` and add its key to `SHOTS` in `lib/mocks.js` — projects without one get a drawn mockup automatically.
-
-## Tech
-
-Next.js • React • Three.js • GSAP • Canvas 2D
+Everything lives in [`lib/data.js`](lib/data.js): `FEATURED` (launched websites, with full case studies), `CONCEPTS` (personal projects), `TIMELINE`, `SKILLS`, `TOOLS` and `MORE_BEHANCE`. Each project needs two images in `public/img/`: `<slug>_full.jpg` (wide mockup) and `<slug>_sq.jpg` (square).
